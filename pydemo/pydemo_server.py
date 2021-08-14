@@ -24,7 +24,9 @@ def serve(bind_address):
 
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count(),),
-        options=(('grpc.so_reuseport', 1),)
+        options=(
+            ('grpc.so_reuseport', 1),# 目前只有 Linux 下支持 端口复用。
+        )
     )
     add_GreeterServicer_to_server(Greeter(), server)
     server.add_insecure_port(bind_address)
@@ -43,6 +45,9 @@ def get_port(port):
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     # 目前只有 Linux 下支持 端口复用。
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    #sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    #sock.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 0)
+    # if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) == 0:
     if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT) == 0:
         raise RuntimeError('Failed to set SO_REUSEPORT.')
     sock.bind(('', port))
