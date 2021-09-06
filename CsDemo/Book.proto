@@ -1,0 +1,14 @@
+syntax="proto3";
+
+service Book {
+    rpc SayHello (BookRequest) returns (BookReply) {}
+    rpc SayHelloAgain (BookRequest) returns (BookReply) {}
+}
+
+message BookRequest {
+    string name = 1;
+}
+
+message BookReply {
+    string message = 1;
+}
