@@ -6,6 +6,8 @@
 
 [PECL](https://pecl.php.net) 下载指定版本的 DLL
 
+Windows 下只有 grpc.dll
+
 添加 php.ini
 
 ```ini
@@ -42,7 +44,6 @@ cd protobuf-3.17.3
 ./configure --with-php-config=/www/server/php/73/bin/php-config
 make
 make install
-
 # 会得到路径
 
 # 安装 grpc
@@ -56,7 +57,6 @@ cd grpc-1.39.0
 
 make
 make install
-
 # 会得到路径
 ```
 
