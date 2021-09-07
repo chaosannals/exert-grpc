@@ -1,0 +1,28 @@
+syntax="proto3";
+
+package grpcdemo;
+
+service DemoTester {
+    rpc GetInfo (DemoTesterGetInfoRequest) returns (DemoTesterGetInfoReply) {}
+    rpc GetName (DemoTesterGetNameRequest) returns (DemoTesterGetNameReply) {}
+}
+
+message DemoTesterGetInfoRequest {
+    int64 id = 1;
+}
+
+message DemoTesterGetInfoReply {
+    int32 code = 1;
+    int64 id = 2;
+    string name = 3;
+}
+
+
+message DemoTesterGetNameRequest {
+    int64 id = 1;
+}
+
+message DemoTesterGetNameReply {
+    int32 code = 1;
+    string name = 2;
+}

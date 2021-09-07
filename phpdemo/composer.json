@@ -1,0 +1,27 @@
+{
+    "name": "chaosannals/exert-grpc-phpdemo",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ExertGrpcPhpdemo\\": "src/",
+            "Grpcdemo\\": "lib/Grpcdemo/",
+            "GPBMetadata\\": "lib/GPBMetadata/"
+        }
+    },
+    "authors": [
+        {
+            "name": "chaosannals",
+            "email": "chaosannals@outlook.com"
+        }
+    ],
+    "require": {
+        "grpc/grpc": "^1.39",
+        "google/protobuf": "^3.17"
+    },
+    "scripts": {
+        "build": [
+            
+        ]
+    }
+}

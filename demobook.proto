@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package grpcdemo;
+
+service DemoBook {
+    rpc GetName (DemoBookRequest) returns (DemoBookReply) {}
+}
+
+message DemoBookRequest {
+    int64 id = 1;
+}
+
+message DemoBookReply {
+    string name = 1;
+}
