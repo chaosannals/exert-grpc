@@ -2,6 +2,8 @@ syntax="proto3";
 
 package grpcdemo;
 
+option go_package="./gopb";
+
 service DemoTester {
     rpc GetInfo (DemoTesterGetInfoRequest) returns (DemoTesterGetInfoReply) {}
     rpc GetName (DemoTesterGetNameRequest) returns (DemoTesterGetNameReply) {}
