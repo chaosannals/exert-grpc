@@ -1,27 +1,27 @@
-﻿using System;
-using System.Threading.Tasks;
-using Grpc.Core;
+﻿using System.IO;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using CsDemo.Server.Services;
 
-namespace CsDemo.Server
-{
-    class Program
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureHostConfiguration(cd =>
     {
-        const int Port = 30051;
+        cd.SetBasePath(Directory.GetCurrentDirectory());
+        cd.AddEnvironmentVariables(prefix: "GRPC_CS_DEMO_");
+    })
+    .ConfigureServices((hc, services) =>
+    {
+        services.AddHostedService<ServerService>();
+    })
+    .ConfigureLogging((hc, cl) =>
+    {
+        cl.AddFile(hc.Configuration.GetSection("LoggingFile"));
+        cl.AddConsole();
+    })
+    .UseConsoleLifetime()
+    .Build();
 
-        public static void Main(string[] args)
-        {
-            Grpc.Core.Server server = new Grpc.Core.Server
-            {
-                Services = { Greeter.BindService(new CsDemoImplement()), Book.BindService(new BookImplement()) },
-                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
-            };
-            server.Start();
+await host.RunAsync();
 
-            Console.WriteLine("Greeter server listening on port " + Port);
-            Console.WriteLine("Press any key to stop the server...");
-            Console.ReadKey();
-
-            server.ShutdownAsync().Wait();
-        }
-    }
-}

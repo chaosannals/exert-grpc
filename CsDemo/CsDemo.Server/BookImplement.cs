@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Grpc.Core;
 
-namespace CsDemo.Server
+namespace CsDemo.Server;
+
+class BookImplement : Book.BookBase
 {
-    class BookImplement : Book.BookBase
+    public override Task<BookReply> SayHello(BookRequest request, ServerCallContext context)
     {
-        public override Task<BookReply> SayHello(BookRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new BookReply { Message = "Hello " + request.Name });
-        }
+        return Task.FromResult(new BookReply { Message = "Hello " + request.Name });
     }
 }

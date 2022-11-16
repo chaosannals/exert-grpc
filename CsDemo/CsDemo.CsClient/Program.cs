@@ -1,29 +1,27 @@
-﻿using System;
-using Grpc.Core;
+﻿using System.IO;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using CsDemo.CsClient.Services;
 
-namespace CsDemo.CsClient
-{
-    class Program
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureHostConfiguration(cd =>
     {
-        public static void Main(string[] args)
-        {
-            Channel channel = new Channel("127.0.0.1:30051", ChannelCredentials.Insecure);
+        cd.SetBasePath(Directory.GetCurrentDirectory());
+        cd.AddEnvironmentVariables(prefix: "GRPC_CS_DEMO_");
+    })
+    .ConfigureServices((hc, services) =>
+    {
+        services.AddHostedService<ClientService>();
+    })
+    .ConfigureLogging((hc, cl) =>
+    {
+        cl.AddFile(hc.Configuration.GetSection("LoggingFile"));
+        cl.AddConsole();
+    })
+    .UseConsoleLifetime()
+    .Build();
 
-            // Greeter
-            var client = new Greeter.GreeterClient(channel);
-            string user = "you";
+await host.RunAsync();
 
-            var reply = client.SayHello(new HelloRequest { Name = user });
-            Console.WriteLine("Greeting: " + reply.Message);
-
-            // Book
-            var bclient = new Book.BookClient(channel);
-            var breply = bclient.SayHello(new BookRequest { Name = "boook" });
-            Console.WriteLine("Book: " + breply.Message);
-
-            channel.ShutdownAsync().Wait();
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
-    }
-}
