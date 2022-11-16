@@ -1,14 +1,23 @@
-syntax="proto3";
+﻿syntax="proto3";
 
 service Book {
     rpc SayHello (BookRequest) returns (BookReply) {}
     rpc SayHelloAgain (BookRequest) returns (BookReply) {}
 }
 
+// 书签
+message BookMark {
+    int32 index = 1;
+    string tag = 2;
+}
+
 message BookRequest {
     string name = 1;
+    optional string title = 2; // 可选
+    repeated BookMark marks = 3; // 数组
 }
 
 message BookReply {
     string message = 1;
+    int32 marks_count = 2;
 }

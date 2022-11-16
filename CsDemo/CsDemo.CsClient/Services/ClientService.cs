@@ -39,8 +39,19 @@ public class ClientService : BackgroundService
             logger.LogInformation("Greeting: {}", reply.Message);
 
             // Book
-            var breply = bclient.SayHello(new BookRequest { Name = "boook" });
-            logger.LogInformation("Book: {}", breply.Message);
+            var br = new BookRequest { Name = "boook" };
+            var bi = 0;
+            for (var i = 0; i < Random.Shared.Next(0, 10); i++)
+            {
+                bi += Random.Shared.Next(0, 10);
+                br.Marks.Add(new BookMark
+                {
+                    Index = bi,
+                    Tag = $"书签 {i}",
+                });
+            }
+            var breply = bclient.SayHello(br);
+            logger.LogInformation("Book: {} Marks: {}", breply.Message, breply.MarksCount);
         }
         await channel.ShutdownAsync();
     }
