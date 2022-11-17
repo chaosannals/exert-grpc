@@ -1,0 +1,17 @@
+﻿syntax="proto3";
+
+service SkiaDemo {
+    rpc DrawBySkia (DrawBySkiaRequest) returns (DrawBySkiaReply) {}
+}
+
+message DrawBySkiaRequest {
+    string name = 1;
+    repeated string contents = 2;
+    bytes picture = 3;
+}
+
+message DrawBySkiaReply {
+    int32 code = 1;
+    string message = 2;
+    bytes result = 3;
+}

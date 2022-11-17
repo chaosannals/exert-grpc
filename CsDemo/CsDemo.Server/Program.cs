@@ -16,6 +16,7 @@ var host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton<CsDemoImplement>();
         services.AddSingleton<BookImplement>();
+        services.AddSingleton<SkiaDemoImplement>();
         services.AddHostedService<ServerService>();
     })
     .ConfigureLogging((hc, cl) =>

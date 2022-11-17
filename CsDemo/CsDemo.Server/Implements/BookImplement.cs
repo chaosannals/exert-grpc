@@ -19,6 +19,7 @@ public class BookImplement : Book.BookBase
     public override async Task<BookReply> SayHello(BookRequest request, ServerCallContext context)
     {
         logger.LogInformation("SayHello");
+        await Task.Yield();
         return new BookReply {
             Message = "Hello " + request.Name,
             MarksCount = request.Marks.Count,

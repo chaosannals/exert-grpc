@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +17,7 @@ public class ClientService : BackgroundService
     private Channel channel;
     private Greeter.GreeterClient client;
     private Book.BookClient bclient;
+    private SkiaDemo.SkiaDemoClient sclient;
     private ILogger<ClientService> logger;
 
     public ClientService(IConfiguration config, ILogger<ClientService> logger)
@@ -24,11 +27,13 @@ public class ClientService : BackgroundService
         channel = new Channel($"{host}:{port}", ChannelCredentials.Insecure);
         client = new Greeter.GreeterClient(channel);
         bclient = new Book.BookClient(channel);
+        sclient = new SkiaDemo.SkiaDemoClient(channel);
         this.logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        bool skiaOnce = false;
         while (!stoppingToken.IsCancellationRequested)
         {
             await Task.Delay(1000);
@@ -52,7 +57,38 @@ public class ClientService : BackgroundService
             }
             var breply = bclient.SayHello(br);
             logger.LogInformation("Book: {} Marks: {}", breply.Message, breply.MarksCount);
+
+            // Skia
+            if (!skiaOnce)
+            {
+                await DoSkiaAsync();
+                skiaOnce = true;
+            }
+
+            await Task.Delay(10000);
         }
         await channel.ShutdownAsync();
+    }
+
+    private async Task DoSkiaAsync()
+    {
+        var sr = new DrawBySkiaRequest
+        {
+
+        };
+        sr.Contents.AddRange(new List<string>
+            {
+                "测试中文aa啊手动阀手动阀1324657943333333333333333333撒地方",
+                "冒号中文：阿斯蒂芬撒打发打发打发             4f444444444444444444444444444444444444444444444444444444444444阿三发射点发撒地方444444444444444444",
+                "dsfdsfsdfsd: sdfsd f sdfs dfsd fsd fsdfsdfsdf",
+            });
+        var sreply = await sclient.DrawBySkiaAsync(sr);
+        logger.LogInformation("Skia Length: {} : {}", sreply.Result.Length, sreply.Message);
+        if (sreply.Code == 0)
+        {
+            var p = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "result.jpg");
+            using var f = File.Open(p, FileMode.OpenOrCreate);
+            f.Write(sreply.Result.Span);
+        }
     }
 }

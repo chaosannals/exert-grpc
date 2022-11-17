@@ -11,11 +11,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="SkiaSharp" Version="2.88.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="../CsDemo.proto" Link="CsDemo.proto" />
     <Protobuf Include="../Book.proto" Link="Book.proto" />
+	  <Protobuf Include="./SkiaDemo.proto" Link="SkiaDemo.proto" />
   </ItemGroup>
 
 </Project>

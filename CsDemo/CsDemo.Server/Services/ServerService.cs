@@ -15,8 +15,13 @@ public class ServerService : IHostedService
     private Grpc.Core.Server server;
     private ILogger<ServerService> logger;
 
-    public ServerService(IConfiguration config, ILogger<ServerService> logger, CsDemoImplement csdemoi, BookImplement booki)
-    {
+    public ServerService(
+        IConfiguration config,
+        ILogger<ServerService> logger,
+        CsDemoImplement csdemoi,
+        BookImplement booki,
+        SkiaDemoImplement skiai
+    ) {
         port = config.GetValue<int>("Tcp:Port");
         host = config.GetValue<string>("Tcp:Host");
         server = new Grpc.Core.Server
@@ -24,6 +29,7 @@ public class ServerService : IHostedService
             Services = {
                 Greeter.BindService(csdemoi),
                 Book.BindService(booki),
+                SkiaDemo.BindService(skiai),
             },
             Ports = {
                 new ServerPort(host, port, ServerCredentials.Insecure),
