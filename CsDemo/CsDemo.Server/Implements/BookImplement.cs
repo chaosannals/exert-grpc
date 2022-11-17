@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Microsoft.Extensions.Logging;
 
 namespace CsDemo.Server.Implements;
 
-class BookImplement : Book.BookBase
+public class BookImplement : Book.BookBase
 {
+    private ILogger<BookImplement> logger;
+    public BookImplement(ILogger<BookImplement> logger)
+    {
+        this.logger = logger;
+    }
+
     public override async Task<BookReply> SayHello(BookRequest request, ServerCallContext context)
     {
+        logger.LogInformation("SayHello");
         return new BookReply {
             Message = "Hello " + request.Name,
             MarksCount = request.Marks.Count,

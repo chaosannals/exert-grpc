@@ -15,15 +15,15 @@ public class ServerService : IHostedService
     private Grpc.Core.Server server;
     private ILogger<ServerService> logger;
 
-    public ServerService(IConfiguration config, ILogger<ServerService> logger)
+    public ServerService(IConfiguration config, ILogger<ServerService> logger, CsDemoImplement csdemoi, BookImplement booki)
     {
         port = config.GetValue<int>("Tcp:Port");
         host = config.GetValue<string>("Tcp:Host");
         server = new Grpc.Core.Server
         {
             Services = {
-                Greeter.BindService(new CsDemoImplement()),
-                Book.BindService(new BookImplement())
+                Greeter.BindService(csdemoi),
+                Book.BindService(booki),
             },
             Ports = {
                 new ServerPort(host, port, ServerCredentials.Insecure),
