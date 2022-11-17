@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using CsDemo.CsClient.Properties;
+using Google.Protobuf;
 
 namespace CsDemo.CsClient.Services;
 
@@ -72,9 +74,12 @@ public class ClientService : BackgroundService
 
     private async Task DoSkiaAsync()
     {
+        var ri = Random.Shared.Next(0, 2);
+        var rp = (ri == 0) ? Resources.Picture1 : Resources.Picture2;
+
         var sr = new DrawBySkiaRequest
         {
-
+            Picture = await ByteString.FromStreamAsync(new MemoryStream(rp)),
         };
         sr.Contents.AddRange(new List<string>
             {

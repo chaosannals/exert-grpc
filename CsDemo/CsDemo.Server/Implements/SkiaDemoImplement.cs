@@ -21,7 +21,8 @@ public class SkiaDemoImplement : SkiaDemo.SkiaDemoBase
 
     public override async Task<DrawBySkiaReply> DrawBySkia(DrawBySkiaRequest request, ServerCallContext context)
     {
-        using var m = new MemoryStream(Resources.Test);
+        //using var m = new MemoryStream(Resources.Test);
+        using var m = new MemoryStream(request.Picture.ToArray());
         using var skms = new SKManagedStream(m);
         using var bitmap = SKBitmap.Decode(skms);
 
