@@ -1,0 +1,16 @@
+syntax="proto3";
+
+option csharp_namespace = "AuthDemo.Grpc";
+
+service AuthDemoRpc {
+    rpc Say(AuthSayRequest) returns (AuthSayReply) {}
+}
+
+message AuthSayRequest {
+    string content = 1;
+}
+
+message AuthSayReply {
+    int32 code = 1;
+    string tip = 2;
+}
