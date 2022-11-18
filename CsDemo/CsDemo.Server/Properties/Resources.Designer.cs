@@ -63,6 +63,16 @@ namespace CsDemo.Server.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] SourceHanSerifCN_Light {
+            get {
+                object obj = ResourceManager.GetObject("SourceHanSerifCN-Light", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] Test {
             get {
                 object obj = ResourceManager.GetObject("Test", resourceCulture);

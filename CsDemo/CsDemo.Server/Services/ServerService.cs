@@ -20,7 +20,8 @@ public class ServerService : IHostedService
         ILogger<ServerService> logger,
         CsDemoImplement csdemoi,
         BookImplement booki,
-        SkiaDemoImplement skiai
+        SkiaDemoImplement skiai,
+        ImageSharpDemoImplement imagesharpi
     ) {
         port = config.GetValue<int>("Tcp:Port");
         host = config.GetValue<string>("Tcp:Host");
@@ -30,6 +31,7 @@ public class ServerService : IHostedService
                 Greeter.BindService(csdemoi),
                 Book.BindService(booki),
                 SkiaDemo.BindService(skiai),
+                ImageSharpDemo.BindService(imagesharpi),
             },
             Ports = {
                 new ServerPort(host, port, ServerCredentials.Insecure),

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -17,7 +17,8 @@
   <ItemGroup>
     <Protobuf Include="../CsDemo.proto" Link="CsDemo.proto" />
     <Protobuf Include="../Book.proto" Link="Book.proto" />
-	  <Protobuf Include="./SkiaDemo.proto" Link="SkiaDemo.proto" />
+	<Protobuf Include="./SkiaDemo.proto" Link="SkiaDemo.proto" />
+	<Protobuf Include="./ImageSharpDemo.proto" Link="ImageSharpDemo.proto" />
   </ItemGroup>
 
 </Project>

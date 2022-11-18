@@ -1,0 +1,17 @@
+﻿syntax="proto3";
+
+service ImageSharpDemo {
+    rpc DrawByImageSharp (DrawByImageSharpRequest) returns (DrawByImageSharpReply) {}
+}
+
+message DrawByImageSharpRequest {
+    string name = 1;
+    repeated string contents = 2;
+    bytes picture = 3;
+}
+
+message DrawByImageSharpReply {
+    int32 code = 1;
+    string message = 2;
+    bytes result = 3;
+}
