@@ -1,0 +1,14 @@
+syntax="proto3";
+
+service JsDemo {
+    rpc Say(SayJsDemoRequest) returns (SayJsDemoReply) {}
+}
+
+message SayJsDemoRequest {
+    string content = 1;
+}
+
+message SayJsDemoReply {
+    int32 code = 1;
+    string tip = 2;
+}
