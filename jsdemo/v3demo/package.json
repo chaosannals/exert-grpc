@@ -6,16 +6,29 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "protojs": "protoc -I=../ jsdemo.proto --js_out=import_style=commonjs:./grpc --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./grpc",
+    "protots": "protoc -I=../ jsdemo.proto --js_out=import_style=commonjs,binary:./grpc --grpc-web_out=import_style=typescript,mode=grpcweb:./grpc",
+    "igrpc": "protoc -I=../ --ts_out=service=grpc-web:./igrpc --js_out=import_style=commonjs,binary:./igrpc jsdemo.proto"
   },
   "dependencies": {
+    "@improbable-eng/grpc-web": "^0.15.0",
+    "google-protobuf": "^3.21.2",
     "grpc-web": "^1.4.2",
-    "vue": "^3.2.41"
+    "lodash": "^4.17.21",
+    "ts-protoc-gen": "^0.15.0",
+    "vue": "^3.2.41",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@types/lodash": "^4.14.189",
+    "@vitejs/plugin-basic-ssl": "^0.1.2",
     "@vitejs/plugin-vue": "^3.2.0",
+    "grpc-web-client": "^0.7.0",
     "typescript": "^4.6.4",
     "vite": "^3.2.0",
+    "vite-plugin-mkcert": "^1.10.1",
     "vue-tsc": "^1.0.9"
   }
 }

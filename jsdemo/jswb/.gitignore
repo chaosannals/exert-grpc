@@ -1,0 +1,5 @@
+/dist/
+/node_modules/
+/src/*Pb.ts
+/src/*pb.d.ts
+/src/*_pb.js

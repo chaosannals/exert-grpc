@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GRPC DEMO</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="/jswb.js"></script>
+    <script>
+      // 需要 nginx 启动 grpc 代理
+      // 这个不是 vue 代码，只是利用 public 目录启动的一个 nginx 静态站和 grpc 代理。
+      // 所以 jswb 生成物无法通过 vite devServer 进行开发调试。
+      // 生成的 js, ts 文件 vite 不支持 require ；webpack 支持 require。
+      // 只有上线到 nginx 或者通过多一层 nginx 代理来做调试。
+      /*
+      location /JsDemo {
+        grpc_pass grpc://127.0.0.1:50051;
+      }
+      */
+      const jswb = new window.Jswb('//');
+      jswb.request("content").then(r => {
+        console.log(r, r.getTip());
+      });
+    </script>
+  </body>
+</html>
