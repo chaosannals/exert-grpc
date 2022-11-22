@@ -1,0 +1,49 @@
+{
+  "name": "v2demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "npm run buildgrpc && npm run bgrpcaspnet && vue-cli-service serve",
+    "build": "npm run buildgrpc && npm run bgrpcaspnet && vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "buildgrpc": "protoc -I=../ jsdemo.proto --js_out=import_style=commonjs:./src/grpc --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./src/grpc",
+    "bgrpcaspnet": "protoc -I=../../CsDemo/AspMvcDemo/Protos BookDemo.proto --js_out=import_style=commonjs:./src/grpc --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./src/grpc"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "google-protobuf": "^3.21.2",
+    "grpc-web": "^1.4.2",
+    "lodash": "^4.17.21",
+    "vue": "^2.6.14",
+    "vue-router": "^3.6.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
