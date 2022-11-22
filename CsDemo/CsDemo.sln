@@ -12,9 +12,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsDemo.CsClient", "CsDemo.C
 		{C2DAE9B8-3AC8-41F4-8889-D4D21F092358} = {C2DAE9B8-3AC8-41F4-8889-D4D21F092358}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthDemo.Client", "AuthDemo.Client\AuthDemo.Client.csproj", "{FFFA5883-960E-4A5C-AE34-42523B387158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthDemo.Client", "AuthDemo.Client\AuthDemo.Client.csproj", "{FFFA5883-960E-4A5C-AE34-42523B387158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthDemo.Server", "AuthDemo.Server\AuthDemo.Server.csproj", "{5C6E6482-3D75-4E8E-A8F5-F14C4AF724EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthDemo.Server", "AuthDemo.Server\AuthDemo.Server.csproj", "{5C6E6482-3D75-4E8E-A8F5-F14C4AF724EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspMvcDemo", "AspMvcDemo\AspMvcDemo.csproj", "{50B70EBC-8C00-4628-A074-3572C770D086}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{5C6E6482-3D75-4E8E-A8F5-F14C4AF724EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C6E6482-3D75-4E8E-A8F5-F14C4AF724EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C6E6482-3D75-4E8E-A8F5-F14C4AF724EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50B70EBC-8C00-4628-A074-3572C770D086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B70EBC-8C00-4628-A074-3572C770D086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B70EBC-8C00-4628-A074-3572C770D086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B70EBC-8C00-4628-A074-3572C770D086}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
