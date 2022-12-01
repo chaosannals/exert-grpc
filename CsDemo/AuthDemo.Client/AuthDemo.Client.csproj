@@ -25,6 +25,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.21.9" />
     <PackageReference Include="Grpc" Version="2.46.5" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.50.0" />
     <PackageReference Include="Grpc.Tools" Version="2.50.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,11 +35,28 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="../AuthDemo.proto" Link="AuthDemo.proto" GrpcServices="Client" />
+		<Protobuf Include="..\AuthDemo.proto" Link="AuthDemo.proto" GrpcServices="Client" />
+		<Protobuf Include="..\AspMvcDemo\Protos\BookDemo.proto" Link="BookDemo.proto" GrpcServices="Client" />
+		<Protobuf Include="..\AspCertsDemo\Protos\greet.proto" Link="greet.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Implements\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>

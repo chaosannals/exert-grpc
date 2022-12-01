@@ -29,6 +29,7 @@ app.UseRouting();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGrpcService<BookService>()

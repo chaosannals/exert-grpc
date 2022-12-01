@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthDemo.Client", "AuthDemo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthDemo.Server", "AuthDemo.Server\AuthDemo.Server.csproj", "{5C6E6482-3D75-4E8E-A8F5-F14C4AF724EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspMvcDemo", "AspMvcDemo\AspMvcDemo.csproj", "{50B70EBC-8C00-4628-A074-3572C770D086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspMvcDemo", "AspMvcDemo\AspMvcDemo.csproj", "{50B70EBC-8C00-4628-A074-3572C770D086}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspCertsDemo", "AspCertsDemo\AspCertsDemo.csproj", "{AF788707-A24D-42BA-98C5-CECA27A83ECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{50B70EBC-8C00-4628-A074-3572C770D086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50B70EBC-8C00-4628-A074-3572C770D086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50B70EBC-8C00-4628-A074-3572C770D086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF788707-A24D-42BA-98C5-CECA27A83ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF788707-A24D-42BA-98C5-CECA27A83ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF788707-A24D-42BA-98C5-CECA27A83ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF788707-A24D-42BA-98C5-CECA27A83ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
