@@ -27,7 +27,10 @@ public class AspCertsClientHttpsService : BackgroundService
         var clientCertificate = new X509Certificate2(Resources.client_pfx, "1234");
         var httpHandler = new HttpClientHandler();
         httpHandler.ClientCertificates.Add(clientCertificate);
-        channel = GrpcChannel.ForAddress($"https://{host}:{port}", new GrpcChannelOptions { HttpHandler = httpHandler });
+        channel = GrpcChannel.ForAddress(
+            $"https://{host}:{port}"
+            ,new GrpcChannelOptions { HttpHandler = httpHandler }
+        );
         client = new Greeter.GreeterClient(channel);
         authClient = new AspCertsAuth.AspCertsAuthClient(channel);
     }

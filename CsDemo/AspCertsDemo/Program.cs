@@ -4,28 +4,42 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using AspCertsDemo.Properties;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 强制 HTTPS 索要证书
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
-    options.ConfigureHttpsDefaults(options =>
-        options.ClientCertificateMode = ClientCertificateMode.RequireCertificate);
+    options.ConfigureHttpsDefaults(op =>
+    {
+        //op.ServerCertificate = new X509Certificate2(Resources.rootca_pfx, "1234");
+        op.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+    });
 });
 
 // 证书授权 TODO
 builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
     .AddCertificate(options =>
     {
+        //options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+        options.AllowedCertificateTypes = CertificateTypes.All;
+        //options.RevocationMode = X509RevocationMode.NoCheck;
+
         options.Events = new CertificateAuthenticationEvents
         {
+            OnAuthenticationFailed = context =>
+            {
+                context.Fail("aa");
+                return Task.CompletedTask;
+            },
+
             OnCertificateValidated = context =>
             {
                 //var validationService = context.HttpContext.RequestServices
                 //    .GetRequiredService<ICertificateValidationService>();
-                var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger>();
-                logger.LogInformation("certs xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                //var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger>();
+                //logger.LogInformation("certs xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
                 var clientCerts = context.ClientCertificate;
 
