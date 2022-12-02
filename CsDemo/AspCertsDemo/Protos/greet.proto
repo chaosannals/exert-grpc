@@ -25,3 +25,18 @@ service AspCertsAuth {
 	rpc SayHello (HelloRequest) returns (HelloReply);
 	rpc SetAuth (HelloRequest) returns (HelloReply);
 }
+
+
+service AspCertsMake {
+	rpc MakeCert (MakeCertRequest) returns (MakeCertReply);
+}
+
+message MakeCertRequest {
+	string account = 1;
+}
+
+message MakeCertReply {
+	int32 code = 1;
+	optional bytes cert = 2;
+	optional string tip = 3;
+}

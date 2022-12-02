@@ -16,6 +16,7 @@ public class AspCertsClientHttpsService : BackgroundService
     private GrpcChannel channel;
     private Greeter.GreeterClient client;
     private AspCertsAuth.AspCertsAuthClient authClient;
+    private AspCertsMake.AspCertsMakeClient makeClient;
     private ILogger<AspCertsClientHttpsService> logger;
 
     public AspCertsClientHttpsService(IConfiguration config, ILogger<AspCertsClientHttpsService> logger)
@@ -33,6 +34,7 @@ public class AspCertsClientHttpsService : BackgroundService
         );
         client = new Greeter.GreeterClient(channel);
         authClient = new AspCertsAuth.AspCertsAuthClient(channel);
+        makeClient = new AspCertsMake.AspCertsMakeClient(channel);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -43,6 +45,7 @@ public class AspCertsClientHttpsService : BackgroundService
             {
                 await Task.Delay(4000);
 
+                // 
                 var request = new HelloRequest
                 {
                     Name = "Https",
@@ -52,6 +55,15 @@ public class AspCertsClientHttpsService : BackgroundService
 
                 var ra = await authClient.SayHelloAsync(request);
                 logger.LogInformation("from auth server: {}", r.Message);
+
+
+                // make
+                var makeRequest = new MakeCertRequest
+                {
+                    Account = "123456",
+                };
+                var makeReply = makeClient.MakeCert(makeRequest);
+                logger.LogInformation("from make server: {} {}", makeReply.Tip, makeReply.Cert.Length);
 
                 await Task.Yield();
             }
