@@ -39,4 +39,7 @@ message MakeCertReply {
 	int32 code = 1;
 	optional bytes cert = 2;
 	optional string tip = 3;
+	optional string pem = 4;
+	optional string ca = 5;
+	optional bytes cap = 6;
 }

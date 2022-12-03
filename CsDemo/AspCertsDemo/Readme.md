@@ -38,7 +38,7 @@ Export-Certificate -Cert cert:\localMachine\my\Thumbprint -FilePath rootca.crt
 $rootcert = ( Get-ChildItem -Path cert:\LocalMachine\My\Thumbprint )
 
 # 生成新证书，会打印出 Thumbprint 值
-New-SelfSignedCertificate -certstorelocation cert:\LocalMachine\My -DnsName "MyCARoot" -Signer $rootcert -NotAfter (Get-Date).AddYears(20) -FriendlyName "User1"
+New-SelfSignedCertificate -CertStoreLocation cert:\LocalMachine\My -DnsName "MyCARoot" -Signer $rootcert -NotAfter (Get-Date).AddYears(20) -FriendlyName "User1"
 
 # 给密码加个密，密码是  "1234"
 $mypwd = ConvertTo-SecureString -String "1234" -Force -AsPlainText
@@ -52,3 +52,16 @@ Export-Certificate -Cert cert:\LocalMachine\My\Thumbprint -FilePath client.crt
 
 根证书加入到 运行（mmc，[添加/删除管理单元]添加 [证书],“本地计算机” 的证书） [第三方根证书颁发机构]或[受信任的根证书颁发机构]（Trusted Root Certification Authorities） 证书，创建的子证书才能受信任。
 因为 certmgr.msc 下只能添加当前用户只有浏览器起效，无法给服务器起效，所以要用 mmc。
+
+[OID 参考](https://oidref.com/)
+
+
+###
+
+```bash
+# windows 查看 pfx
+certutil -dump file.pfx
+
+# openssl 查看 pfx
+openssl pkcs12 -info -in file.pfx
+```

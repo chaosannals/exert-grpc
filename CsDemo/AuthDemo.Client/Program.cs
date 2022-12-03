@@ -13,7 +13,7 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hc, services) =>
     {
         services.AddHostedService<AspCertsClientHttpService>();
-        //services.AddHostedService<AspCertsClientHttpsService>();
+        services.AddHostedService<AspCertsClientHttpsService>();
         services.AddHostedService<TesterService>();
     })
     .ConfigureLogging((hc, cl) =>

@@ -8,6 +8,7 @@ using AspCertsDemo.Properties;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // 强制 HTTPS 索要证书
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
@@ -38,10 +39,15 @@ builder.Services.AddAuthentication(CertificateAuthenticationDefaults.Authenticat
             {
                 //var validationService = context.HttpContext.RequestServices
                 //    .GetRequiredService<ICertificateValidationService>();
-                //var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger>();
-                //logger.LogInformation("certs xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
+                var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<int>>();
                 var clientCerts = context.ClientCertificate;
+
+                //var rootca = new X509Certificate2(Resources.rootca_pfx, "1234");
+                //logger.LogInformation("rootca: {}", rootca.ExportCertificatePem());
+
+                logger.LogInformation("certs xxxxxxxxxxxx {}", clientCerts.Thumbprint);
+
+                CertsMakeService.ExportCertPfxTo(clientCerts, "ccc.pfx");
 
                 var claims = new[]
                 {
