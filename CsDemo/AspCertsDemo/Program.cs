@@ -14,7 +14,7 @@ builder.Services.Configure<KestrelServerOptions>(options =>
 {
     options.ConfigureHttpsDefaults(op =>
     {
-        //op.ServerCertificate = new X509Certificate2(Resources.rootca_pfx, "1234");
+        //op.ServerCertificate = new X509Certificate2(Resources.rootca_pfx, "1234"); // 设置的是服务器的证书。
         op.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
     });
 });
@@ -25,7 +25,9 @@ builder.Services.AddAuthentication(CertificateAuthenticationDefaults.Authenticat
     {
         //options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
         options.AllowedCertificateTypes = CertificateTypes.All;
-        //options.RevocationMode = X509RevocationMode.NoCheck;
+        options.RevocationMode = X509RevocationMode.NoCheck; // 不检查可以让代码自动生成的证书通过，打开手动命令签的可以，代码自动生成的不行（会进入 OnAuthenticationFailed）。
+        // TODO 尝试修改生成证书代码，使得打开检查也能和手动命令签的一样通过。
+        // tip: 应该是代码生成的不是 chain certs ，没有带上 CA 的 Pubkey 导致不能通过 CA 的验证。
 
         options.Events = new CertificateAuthenticationEvents
         {
@@ -71,7 +73,7 @@ builder.Services.AddAuthentication(CertificateAuthenticationDefaults.Authenticat
     });
 builder.Services.AddAuthorization();
 
-// 
+// 代理使用，通过头部传递证书。
 //builder.Services.AddCertificateForwarding(options =>
 //{
 //    options.CertificateHeader = "X-SSL-CERT-KEY";

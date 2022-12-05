@@ -23,23 +23,16 @@ public class CertsMakeService : AspCertsMake.AspCertsMakeBase
         using var rootca = new X509Certificate2(Resources.rootca_pfx, "1234");
         //PrintChain(rootca);
 
+        // ecdsa 算法
         //var ecdsa = ECDsa.Create();
         //var req = new CertificateRequest(rootca.Issuer, ecdsa, HashAlgorithmName.SHA256);
-
-        using var rsa = RSA.Create(2048);
-        var req = new CertificateRequest(rootca.Issuer, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        req.CertificateExtensions.Add(
-            new X509BasicConstraintsExtension(false, false, 0, false)
-        );
-        var signer = X509SignatureGenerator.CreateForRSA(rootca.GetRSAPrivateKey()!, RSASignaturePadding.Pkcs1);
-        var sn = new byte[16];
-        Random.Shared.NextBytes(sn);
-        using var cert = req.Create(rootca.IssuerName, signer, DateTimeOffset.Now, rootca.NotAfter, sn).CopyWithPrivateKey(rsa);
 
         //using var cert = req.Create(rootca, DateTimeOffset.Now, rootca.NotAfter, sn);
 
         //using var rootca = EnsureRootCert();
         //using var cert = MakeClientCert(rootca);
+        using var cert = MakeClientCertRsa2(rootca);
+        //using var cert = MakeClientCertChain(rootca);
 
         //var cert = req.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(20));
 
@@ -97,10 +90,22 @@ public class CertsMakeService : AspCertsMake.AspCertsMakeBase
         File.WriteAllBytes(path, bytes);
     }
 
+    /// <summary>
+    /// TODO 带上 CA 证书
+    /// 
+    /// 
+    /// </summary>
+    /// <param name="rootca"></param>
+    /// <returns></returns>
     public static X509Certificate2 MakeClientCertChain(X509Certificate2 rootca)
     {
         using var rsa = RSA.Create(2048);
-        var req = new CertificateRequest(rootca.Issuer, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        var req = new CertificateRequest(
+            rootca.Issuer,
+            rsa,
+            HashAlgorithmName.SHA256,
+            RSASignaturePadding.Pkcs1
+        );
         req.CertificateExtensions.Add(
             new X509BasicConstraintsExtension(false, false, 0, true)
         );
@@ -138,9 +143,69 @@ public class CertsMakeService : AspCertsMake.AspCertsMakeBase
         var signer = X509SignatureGenerator.CreateForRSA(rootca.GetRSAPrivateKey()!, RSASignaturePadding.Pkcs1);
         var sn = new byte[16];
         Random.Shared.NextBytes(sn);
-        return req.Create(rootca, DateTimeOffset.Now, rootca.NotAfter, sn);
+        //return req.Create(
+        //    rootca,
+        //    DateTimeOffset.Now,
+        //    rootca.NotAfter,
+        //    sn
+        //).CopyWithPrivateKey(rsa);
+        return req.Create(
+            rootca.IssuerName,
+            signer,
+            DateTimeOffset.Now,
+            rootca.NotAfter,
+            sn
+        ).CopyWithPrivateKey(rsa);
     }
 
+    /// <summary>
+    /// 生成客户端证书，客户端可用，CA 验证会失败。
+    /// options.RevocationMode = X509RevocationMode.NoCheck;
+    /// 不检查可以让代码自动生成的证书通过，打开手动命令签的可以，代码自动生成的不行（会进入 OnAuthenticationFailed）。
+    /// TODO 尝试修改生成证书代码，使得打开检查也能和手动命令签的一样通过。
+    /// tip: 应该是代码生成的不是 chain certs ，没有带上 CA 的 Pubkey 导致不能通过 CA 的验证。
+    /// </summary>
+    /// <param name="rootca"></param>
+    /// <returns></returns>
+    public static X509Certificate2 MakeClientCertRsa2(X509Certificate2 rootca)
+    {
+        using var rsa = RSA.Create(2048);
+        var req = new CertificateRequest(
+            rootca.Issuer,
+            rsa,
+            HashAlgorithmName.SHA256,
+            RSASignaturePadding.Pkcs1
+        );
+        req.CertificateExtensions.Add(
+            new X509BasicConstraintsExtension(false, false, 0, false)
+        );
+        req.CertificateExtensions.Add(
+            new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.NonRepudiation, false)
+        );
+        // 会导致客户端使用证书时， “处理证书时，出现了一个未知错误。”
+        //req.CertificateExtensions.Add(
+        //    new X509EnhancedKeyUsageExtension(
+        //        new OidCollection
+        //        {
+        //            new Oid("1.3.6.1.5.5.7.3.8"),//timeStamping  PKIX key purpose timeStamping
+        //        },
+        //        true
+        //    )
+        //);
+        req.CertificateExtensions.Add(
+            new X509SubjectKeyIdentifierExtension(req.PublicKey, false)
+        );
+        var signer = X509SignatureGenerator.CreateForRSA(rootca.GetRSAPrivateKey()!, RSASignaturePadding.Pkcs1);
+        var sn = new byte[16];
+        Random.Shared.NextBytes(sn);
+        return req.Create(rootca.IssuerName, signer, DateTimeOffset.Now, rootca.NotAfter, sn).CopyWithPrivateKey(rsa);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="root"></param>
+    /// <returns></returns>
     public static X509Certificate2 MakeClientCert(X509Certificate2 root)
     {
         using RSA rsa = RSA.Create(2048);
@@ -168,15 +233,24 @@ public class CertsMakeService : AspCertsMake.AspCertsMakeBase
         req.CertificateExtensions.Add(
             new X509SubjectKeyIdentifierExtension(req.PublicKey, false)
         );
-
+        var signer = X509SignatureGenerator.CreateForRSA(root.GetRSAPrivateKey()!, RSASignaturePadding.Pkcs1);
         var sn = new byte[16];
         Random.Shared.NextBytes(sn);
+
+        // 命令生成的 CARoot 缺少 X509BasicConstraintsExtension 是通过不了这个，要用下面的。
         return req.Create(
             root,
             DateTimeOffset.Now,
             DateTimeOffset.Now.AddYears(1),
             sn
         ).CopyWithPrivateKey(rsa);
+        //return req.Create(
+        //    root.IssuerName,
+        //    signer,
+        //    DateTimeOffset.Now,
+        //    DateTimeOffset.Now.AddYears(1),
+        //    sn
+        //).CopyWithPrivateKey(rsa);
     }
 
 
