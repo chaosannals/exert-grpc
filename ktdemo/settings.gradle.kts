@@ -1,6 +1,6 @@
 rootProject.name = "ktdemo"
 include("grpcsrv")
-// include("grpccli")
+include("grpccli")
 
 // pluginManagement {
 //     repositories {
