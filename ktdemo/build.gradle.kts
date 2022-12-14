@@ -12,7 +12,7 @@ buildscript {
 
 plugins {
     kotlin("jvm") version "1.7.21" apply false
-    id("com.google.protobuf") version "0.8.18" apply false
+    id("com.google.protobuf") version "0.8.19" apply false
 }
 
 ext["grpcVersion"] = "1.51.0"

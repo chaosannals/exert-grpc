@@ -20,6 +20,12 @@ suspend fun main(args: Array<String>) {
     var r = Random(System.nanoTime())
     while (true) {
         TimeUnit.SECONDS.sleep(1L)
-        client.peekBookName(r.nextInt(100).toLong())
+        try {
+            client.peekBookName(r.nextInt(100).toLong())
+        }
+        catch (e: Exception) {
+            print("exception:")
+            println(e)
+        }
     }
 }

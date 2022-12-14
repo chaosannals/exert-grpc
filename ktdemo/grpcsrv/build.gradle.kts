@@ -30,12 +30,12 @@ dependencies {
     api("io.grpc:grpc-kotlin-stub:${rootProject.ext["grpcKotlinVersion"]}")
 
     runtimeOnly("io.grpc:grpc-netty:${rootProject.ext["grpcVersion"]}")
-    // testImplementation(kotlin("test")) // Kotlin 测试库
+    testImplementation(kotlin("test")) // Kotlin 测试库
 }
 
-// tasks.test {
-//     useJUnitPlatform() // JUnitPlatform
-// }
+tasks.test {
+    useJUnitPlatform() // JUnitPlatform
+}
 
 tasks.withType<KotlinCompile> { // Settings for `KotlinCompile` tasks
     // Kotlin 编译选项

@@ -1,0 +1,19 @@
+buildscript {
+    repositories {
+        // maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+        mavenCentral()
+        // gradlePluginPortal()
+    }
+}
+
+plugins {
+    id "com.google.protobuf" version "0.8.19" apply false
+}
+
+allprojects {
+    repositories {
+        // maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
+        mavenCentral()
+        // gradlePluginPortal()
+    }
+}
