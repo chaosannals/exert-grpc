@@ -10,7 +10,7 @@ public class BookService extends DemoBookImplBase {
     public void getName(DemoBookRequest request, StreamObserver<DemoBookReply> responseObserver) {
         DemoBookReply reply = DemoBookReply
             .newBuilder()
-            .setName("aaaaaaa")
+            .setName("name by id:" + request.getId())
             .build();
         responseObserver.onNext(reply);
         responseObserver.onCompleted();

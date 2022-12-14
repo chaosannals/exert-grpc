@@ -1,4 +1,9 @@
 buildscript {
+    ext {
+        grpcVersion = '1.51.0'
+        protobufVersion = '3.21.7'
+    }
+
     repositories {
         // maven { url "https://maven-central.storage-download.googleapis.com/maven2/" }
         mavenCentral()
