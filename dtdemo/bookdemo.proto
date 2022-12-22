@@ -1,0 +1,16 @@
+syntax="proto3";
+
+package bookdemo;
+
+service BookDemoShop {
+    rpc Find(BookRequest) returns (BookReply) {}
+}
+
+message BookRequest {
+    string name = 1;
+}
+
+message BookReply {
+    int64 code = 1;
+    string message = 2;
+}
