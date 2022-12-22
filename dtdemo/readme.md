@@ -3,7 +3,7 @@
 ```bash
 # 需要手动下载和配置 protoc
 
-# 全局安装 grpc 扩展例如（C:\Users\CH3004\AppData\Local\Pub\Cache\bin）这个路径没有在PATH 里
+# 全局安装 grpc 扩展例如（C:\Users\<UserName>\AppData\Local\Pub\Cache\bin）这个路径没有在PATH 里
 # 所以 protoc 会找不到(protoc-gen-dart)，自己复制到 PATH 路径下，或者路径加到 PATH 里面。
 dart pub global activate protoc_plugin
 
