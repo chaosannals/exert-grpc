@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package cppd;
+
+service cppdemo {
+	rpc ack(ack_request) returns (ack_reply);
+}
+
+message ack_request {
+	int32 id = 1;
+	optional string msg = 2;
+}
+
+message ack_reply {
+	int32 code = 1;
+	repeated string msg = 2;
+}
