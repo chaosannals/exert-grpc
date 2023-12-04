@@ -1,0 +1,37 @@
+version: '3.8'
+
+services: 
+  # envoy 代理
+  exert-envoyproxy:
+    image: envoyproxy/envoy:v1.28-latest
+    container_name: envoyproxy
+    restart: always
+    ports: 
+      - 8080:8080
+      - 9901:9901
+      - 10000:10000
+    volumes:
+      - ./conf:/envoyconf
+    networks: 
+      - exert-envoy-net
+    command: -c /envoyconf/envoy.yaml
+  
+  # node grpc 服务器
+  node-server:
+    image: node:20.10.0-alpine
+    container_name: node-server
+    restart: always
+    ports: 
+      - 9900:9900
+    volumes:
+      - ./nodeserver:/nodeserver
+      - ./echo.proto:/echo.proto
+    working_dir: /nodeserver
+    entrypoint: node src/main.js
+    networks: 
+      - exert-envoy-net
+
+networks: 
+  exert-envoy-net:
+    name: exert-envoy-net
+    driver: bridge
