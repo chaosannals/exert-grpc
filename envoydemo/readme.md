@@ -1,7 +1,8 @@
 # web grpc envoy 代理
 
 官方只提供了 webpack 打包生成物的示例。
-vite 会缺少打包工具，而出现各种缺少文件等问题。
+vitejsgrpc 会缺少打包工具，而出现各种缺少文件等问题。
+vitetsgrpc 通过第三方提供的 protoc 插件 @protobuf-ts/grpcweb-transport 生成
 
 所以 vitegrpc 目前不可用。只有 webpackgrpc 可用。
 
