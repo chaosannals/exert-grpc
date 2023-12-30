@@ -1,0 +1,12 @@
+[workspace]
+resolver = "2"
+members = [
+    "tonicdemo",
+    "tonicdemocli"
+]
+
+[workspace.dependencies]
+tonic = "0.10.2"
+tonic-build = { version = "0.10.2", features = ["prost"]  }
+tokio = { version = "1.0", features = ["rt-multi-thread", "macros"] }
+prost = "0.12"
