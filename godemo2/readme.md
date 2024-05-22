@@ -1,5 +1,12 @@
 # go grpc demo 2
 
+```bash
+# Windows 下用 WSL 执行，Msys2 有问题。
+# 使用 cert/gen.sh 生成证书，需要根据自身修改。
+# 如果客户端用 IP 访问 server-ext.cnf 必须指定它访问的 IP ，不然验证不过。
+./cert/gen.sh
+```
+
 提供证书
 
 /C=TR is for Country
@@ -11,14 +18,6 @@
 /emailAddress=mert@tutorial.com is for email address
 
 ```bash
-# 生成 CA 证书
-openssl req -x509 -newkey rsa:4096 -nodes -days 365 -keyout ca-key.pem -out ca-cert.pem -subj "/C=TR/ST=ASIA/L=ISTANBUL/O=DEV/OU=TUTORIAL/CN=*.tutorial.dev/emailAddress=mert@tutorial.com"
-
-# 或者
-openssl req -x509 -newkey rsa:4096 -nodes -days 365 -keyout ca-key.pem -out ca-cert.pem 
-
-##======
-
 # 生成服务器证书
 openssl req -newkey rsa:4096 -nodes -keyout server-key.pem -out server-req.pem -subj "/C=TR/ST=ASIA/L=ISTANBUL/O=DEV/OU=BLOG/CN=*.xxxx.com/emailAddress=xxx@xx.com"
 

@@ -22,9 +22,12 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("exeDir: %s\n pwd: %s\n", exeDir, pwd)
-	caPath := filepath.Join(pwd, "ca-cert.pem")
-	cerPath := filepath.Join(pwd, "client-cert.pem")
-	keyPath := filepath.Join(pwd, "client-key.pem")
+	// caPath := filepath.Join(pwd, "ca-cert.pem")
+	// cerPath := filepath.Join(pwd, "client-cert.pem")
+	// keyPath := filepath.Join(pwd, "client-key.pem")
+	caPath := filepath.Join(pwd, "cert/ca-cert.pem")
+	cerPath := filepath.Join(pwd, "cert/server-cert.pem")
+	keyPath := filepath.Join(pwd, "cert/server-key.pem")
 	fmt.Printf("caPath: %s\ncerPath: %s\nkeyPath: %s\n", caPath, cerPath, keyPath)
 	caBytes, err := os.ReadFile(caPath)
 	if err != nil {
@@ -47,12 +50,9 @@ func main() {
 	}
 	tlsCreds := credentials.NewTLS(tlsConf)
 
-	// TODO 网上示例，一直失败，好像废弃了这个接口
 	fmt.Println("start")
-	conn, err := grpc.Dial(
-		"127.0.0.1:12345",
-		grpc.WithTransportCredentials(tlsCreds),
-	)
+	conn, err := grpc.NewClient("127.0.0.1:12345", grpc.WithTransportCredentials(tlsCreds))
+
 	if err != nil {
 		log.Fatal(err)
 	}

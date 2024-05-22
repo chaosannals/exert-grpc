@@ -39,9 +39,12 @@ func main() {
 	}
 
 	fmt.Printf("exeDir: %s\n pwd: %s\n", exeDir, pwd)
-	caPath := filepath.Join(pwd, "ca-cert.pem")
-	cerPath := filepath.Join(pwd, "server-cert.pem")
-	keyPath := filepath.Join(pwd, "server-key.pem")
+	// caPath := filepath.Join(pwd, "ca-cert.pem")
+	// cerPath := filepath.Join(pwd, "server-cert.pem")
+	// keyPath := filepath.Join(pwd, "server-key.pem")
+	caPath := filepath.Join(pwd, "cert/ca-cert.pem")
+	cerPath := filepath.Join(pwd, "cert/server-cert.pem")
+	keyPath := filepath.Join(pwd, "cert/server-key.pem")
 	fmt.Printf("caPath: %s \ncerPath: %s\nkeyPath: %s\n", caPath, cerPath, keyPath)
 	caBytes, err := os.ReadFile(caPath)
 	if err != nil {
